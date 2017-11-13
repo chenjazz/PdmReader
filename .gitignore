@@ -2,3 +2,4 @@
 /.idea/
 pdmreader.iml
 *.class
+./target/pdm-reader-1.0.jar
