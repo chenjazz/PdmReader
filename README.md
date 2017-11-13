@@ -11,4 +11,4 @@ java -jar pdm-reader-1.0-jar-with-dependencies.jar ./tmp-doc/ZAFK.pdm
 ```
 可显示表明，列信息等，如下图：
 
-![](terminal.png)
+![](terminal2.png)
