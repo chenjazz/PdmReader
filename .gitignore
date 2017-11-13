@@ -2,6 +2,9 @@
 /.idea/
 *.iml
 *.class
-!target/pdm-reader-1.0-jar-with-dependencies.jar
-/target/
+/target/classes/
+/target/generated-sources/
+/target/maven-archiver/
+/target/maven-status/
+/target/pdm-reader-1.0.jar
 
