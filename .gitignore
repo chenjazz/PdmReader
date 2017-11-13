@@ -1,5 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea/
-pdmreader.iml
+*.iml
 *.class
-./target/pdm-reader-1.0.jar
+/target/
+!target/pdm-reader-1.0-jar-with-dependencies.jar
+
