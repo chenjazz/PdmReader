@@ -10,12 +10,15 @@ import static org.fusesource.jansi.Ansi.Color.*;
 public class MainReader {
 
     public static void main(String[] args) throws DocumentException {
+        System.out.println();
         if (args.length < 1) {
             throw new IllegalArgumentException("第一个参数必须是pdm文件路径");
         }
         String fileName = args[0];
-        System.out.println(Ansi.ansi().fg(YELLOW).a("pdm file path-->") + fileName);
+        System.out.println(Ansi.ansi().fg(YELLOW).a("File  path:") + Ansi.ansi().fg(Ansi.Color.GREEN).a(fileName).toString());
 
+
+        long start = System.currentTimeMillis();
 
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(new File(fileName));
@@ -35,17 +38,19 @@ public class MainReader {
         Element tables = model.element(new QName("Tables", cNamespace));
         List<Element> tablelist = tables.elements(new QName("Table", oNamespace));
 
-        System.out.println(Ansi.ansi().fg(YELLOW).a("table size-->" + tablelist.size()));
+        System.out.println(Ansi.ansi().fg(YELLOW).a("Table size:") + Ansi.ansi().fg(Ansi.Color.GREEN).a(tablelist.size()).toString());
 
-        System.out.println(Ansi.ansi().fgDefault().a("---start---"));
+
+        System.out.println(Ansi.ansi().fgDefault().a(" "));
+
         int i = 0;
         for (Element element : tablelist) {
             i++;
             Element name = element.element(new QName("Name", aNamespace));
             Element code = element.element(new QName("Code", aNamespace));
             System.out.println();
-            System.out.println("--->" + Ansi.ansi().fg(BLUE).a("NO." + i) + Ansi.ansi().fg(RED).a(" " + name.getText() + " ") + Ansi.ansi().fg(YELLOW).a(code.getText()) + Ansi.ansi().fgDefault().a("<---"));
-            ;
+            System.out.println("------>" + Ansi.ansi().fg(BLUE).a("NO." + i) + Ansi.ansi().fg(RED).a(" " + name.getText() + " ") +
+                    Ansi.ansi().fg(YELLOW).a(code.getText()) + Ansi.ansi().fgDefault().a("<-------"));
 
             List<Element> columns = element.element(new QName("Columns", cNamespace)).elements(new QName("Column", oNamespace));
             for (Element column : columns) {
@@ -62,6 +67,10 @@ public class MainReader {
             }
 
         }
+
+        System.out.println();
+        System.out.println();
+        System.out.println("Use time:" + (System.currentTimeMillis() - start) / 1000F + "s");
     }
 
     static String getTextFromEle(Element element) {
