@@ -1,5 +1,5 @@
 # 简介
-用于读取 Power Designer 生成的 .pdm 文件
+用于解析 Power Designer 生成的 .pdm 文件
 
 # 软件环境
 JDK1.7+
@@ -10,7 +10,7 @@ JDK1.7+
 ```
 java -jar pdm-reader-1.0-jar-with-dependencies.jar /home/cjz/Desktop/tmp-doc/ZAFK.pdm
 ```
-可显示表名称，列信息等，如下：
+可显示表名称，列信息等（终端上使用不同颜色区分），如下：
 
 ```
 File  path:/home/cjz/Desktop/tmp-doc/ZAFK.pdm
