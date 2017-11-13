@@ -2,6 +2,6 @@
 /.idea/
 *.iml
 *.class
-/target/
-!target/pdm-reader-1.0-jar-with-dependencies.jar
+#/target/
+#!target/pdm-reader-1.0-jar-with-dependencies.jar
 
