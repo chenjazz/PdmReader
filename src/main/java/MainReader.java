@@ -1,6 +1,7 @@
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.File;
 import java.util.List;
@@ -11,6 +12,7 @@ public class MainReader {
 
     public static void main(String[] args) throws DocumentException {
         System.out.println();
+        AnsiConsole.systemInstall();
         if (args.length < 1) {
             throw new IllegalArgumentException("第一个参数必须是pdm文件路径");
         }
@@ -58,11 +60,22 @@ public class MainReader {
                 Element ccode = column.element(new QName("Code", aNamespace));
                 Element cDataType = column.element(new QName("DataType", aNamespace));
                 Element cLength = column.element(new QName("Length", aNamespace));
+                Element cComment = column.element(new QName("Comment", aNamespace));
+                Element pk = column.element(new QName("Column.Mandatory", aNamespace));
 
+//                if (pk != null) {
+//                    System.out.print("√ ");
+//                }else {
+//                    System.out.print("  ");
+//                }
                 System.out.print(getPadString(ccode.getText(), 20));
                 System.out.print(getPadString(getTextFromEle(cDataType), 15));
                 System.out.print(getPadString(getTextFromEle(cLength), 7));
                 System.out.print(cname.getText());
+                if (cComment != null) {
+                    System.out.print("     【备注】" + getTextFromEle(cComment) + "");
+
+                }
                 System.out.println();
             }
 
