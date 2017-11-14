@@ -1,10 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea/
 *.iml
-*.class
-/target/classes/
-/target/generated-sources/
-/target/maven-archiver/
-/target/maven-status/
-/target/pdm-reader-1.0.jar
+/target/
+
 

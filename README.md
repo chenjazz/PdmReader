@@ -5,7 +5,7 @@
 JDK1.7+
  
 # 如何使用
-使用target目录下的jar包 pdm-reader.jar，执行：
+使用jar目录下的jar包 pdm-reader.jar，执行：
 
 ```
 java -jar pdm-reader.jar /home/cjz/Desktop/tmp-doc/ZAFK.pdm
