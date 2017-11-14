@@ -116,7 +116,7 @@ public class MainReader {
 
                 System.out.print(cname.getText());
                 if (cComment != null) {
-                    System.out.print("     【备注】" + getTextFromEle(cComment) + "");
+                    System.out.print("   (" + getTextFromEle(cComment).replace("\n","  ") + ")");
                 }
                 System.out.println();
             }
@@ -127,7 +127,7 @@ public class MainReader {
         System.out.println();
         System.out.println("Use time:" + (System.currentTimeMillis() - start) / 1000F + "s");
         System.out.println();
-        System.out.println("说明： 表标题分别为 列代码/类型/长度/是否为主键/是否为空/列可读名称及备注");
+        System.out.println("说明： 表标题分别为 列代码/类型/长度/是否为主键/是否允许为空/列可读名称及备注");
         System.out.println("      √ 表示主键， M 表示不能为空");
     }
 
