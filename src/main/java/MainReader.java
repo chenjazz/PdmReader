@@ -4,6 +4,7 @@ import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -46,44 +47,88 @@ public class MainReader {
         System.out.println(Ansi.ansi().fgDefault().a(" "));
 
         int i = 0;
-        for (Element element : tablelist) {
+        for (Element tableElement : tablelist) {
             i++;
-            Element name = element.element(new QName("Name", aNamespace));
-            Element code = element.element(new QName("Code", aNamespace));
-            System.out.println();
+            Element name = tableElement.element(new QName("Name", aNamespace));
+            Element code = tableElement.element(new QName("Code", aNamespace));
             System.out.println("------>" + Ansi.ansi().fg(BLUE).a("NO." + i) + Ansi.ansi().fg(RED).a(" " + name.getText() + " ") +
                     Ansi.ansi().fg(YELLOW).a(code.getText()) + Ansi.ansi().fgDefault().a("<-------"));
 
-            List<Element> columns = element.element(new QName("Columns", cNamespace)).elements(new QName("Column", oNamespace));
-            for (Element column : columns) {
-                Element cname = column.element(new QName("Name", aNamespace));
-                Element ccode = column.element(new QName("Code", aNamespace));
-                Element cDataType = column.element(new QName("DataType", aNamespace));
-                Element cLength = column.element(new QName("Length", aNamespace));
-                Element cComment = column.element(new QName("Comment", aNamespace));
-                Element pk = column.element(new QName("Column.Mandatory", aNamespace));
 
-//                if (pk != null) {
-//                    System.out.print("√ ");
-//                }else {
-//                    System.out.print("  ");
-//                }
+            //解析主键
+            Element primaryKeyEle = tableElement.element(new QName("PrimaryKey", cNamespace));
+//            System.out.println(pk);
+            List<String> pkIds = new ArrayList<>();
+            if (primaryKeyEle != null) {
+                List<Element> pks = primaryKeyEle.elements(new QName("Key", oNamespace));
+                for (Element pk1 : pks) {
+//                    System.out.println(pk1.attribute("Ref").getValue());
+                    pkIds.add(pk1.attribute("Ref").getValue());
+                }
+            }
+
+
+            Element keysEle = tableElement.element(new QName("Keys", cNamespace));
+//            System.out.println(keysEle);
+            List<String> pkColumnIds = new ArrayList<>();
+            if (keysEle != null) {
+                List<Element> keyEleList = keysEle.elements(new QName("Key", oNamespace));
+                for (Element keyEle : keyEleList) {
+//                    System.out.println(keyEle);
+                    Attribute id = keyEle.attribute("Id");
+                    if (pkIds.contains(id.getValue())) {
+                        List<Element> list = keyEle.element(new QName("Key.Columns", cNamespace)).elements(new QName("Column", oNamespace));
+                        for (Element element : list) {
+                            pkColumnIds.add(element.attribute("Ref").getValue());
+                        }
+//                        System.out.println(keyEle);
+                    }
+                }
+            }
+
+            //解析column
+            List<Element> columns = tableElement.element(new QName("Columns", cNamespace)).elements(new QName("Column", oNamespace));
+            for (Element columnEle : columns) {
+                String columnId = columnEle.attribute("Id").getValue();
+                Element cname = columnEle.element(new QName("Name", aNamespace));
+                Element ccode = columnEle.element(new QName("Code", aNamespace));
+                Element cDataType = columnEle.element(new QName("DataType", aNamespace));
+                Element cLength = columnEle.element(new QName("Length", aNamespace));
+                Element cComment = columnEle.element(new QName("Comment", aNamespace));
+                Element nullable = columnEle.element(new QName("Column.Mandatory", aNamespace));
+
+
                 System.out.print(getPadString(ccode.getText(), 20));
                 System.out.print(getPadString(getTextFromEle(cDataType), 15));
                 System.out.print(getPadString(getTextFromEle(cLength), 7));
+
+                if (pkColumnIds.contains(columnId)) {
+                    System.out.print("√  ");
+                } else {
+                    System.out.print("   ");
+                }
+
+                if (nullable != null) {
+                    System.out.print("M  ");
+                } else {
+                    System.out.print("   ");
+                }
+
                 System.out.print(cname.getText());
                 if (cComment != null) {
                     System.out.print("     【备注】" + getTextFromEle(cComment) + "");
-
                 }
                 System.out.println();
             }
+            System.out.println();
 
         }
 
         System.out.println();
-        System.out.println();
         System.out.println("Use time:" + (System.currentTimeMillis() - start) / 1000F + "s");
+        System.out.println();
+        System.out.println("说明： 表标题分别为 列代码/类型/长度/是否为主键/是否为空/列可读名称及备注");
+        System.out.println("      √ 表示主键， M 表示不能为空");
     }
 
     static String getTextFromEle(Element element) {
