@@ -35,15 +35,34 @@ public class MainReader {
 
         Element children = rootObject.element(new QName("Children", cNamespace));
         Element model = children.element(new QName("Model", oNamespace));
-        Element tables = model.element(new QName("Tables", cNamespace));
-        List<Element> tablelist = tables.elements(new QName("Table", oNamespace));
 
-        System.out.println(Ansi.ansi().fg(YELLOW).a("Table size:") + Ansi.ansi().fg(Ansi.Color.GREEN).a(tablelist.size()).toString());
+        List<Element> tableEles = new ArrayList<>();
+
+        //解析package
+        Element packagesEle = model.element(new QName("Packages", cNamespace));
+        if (packagesEle != null) {
+            List<Element> packageEles = packagesEle.elements(new QName("Package", oNamespace));
+            for (Element packageEle : packageEles) {
+                Element tablesEle = packageEle.element(new QName("Tables", cNamespace));
+                if (tablesEle != null) {
+                    tableEles.addAll(tablesEle.elements(new QName("Table", oNamespace)));
+                }
+            }
+        }
+
+
+        //直接解析table
+        Element tablesEle = model.element(new QName("Tables", cNamespace));
+        if (tablesEle != null) {
+            tableEles.addAll(tablesEle.elements(new QName("Table", oNamespace)));
+        }
+
+        System.out.println(Ansi.ansi().fg(YELLOW).a("Table size:") + Ansi.ansi().fg(Ansi.Color.GREEN).a(tableEles.size()).toString());
 
         System.out.println(Ansi.ansi().fgDefault().a(" "));
 
         int i = 0;
-        for (Element tableElement : tablelist) {
+        for (Element tableElement : tableEles) {
             i++;
             Element name = tableElement.element(new QName("Name", aNamespace));
             Element code = tableElement.element(new QName("Code", aNamespace));
