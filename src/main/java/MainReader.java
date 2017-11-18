@@ -20,7 +20,6 @@ public class MainReader {
         String fileName = args[0];
         System.out.println(Ansi.ansi().fg(YELLOW).a("File  path:") + Ansi.ansi().fg(Ansi.Color.GREEN).a(fileName).toString());
 
-
         long start = System.currentTimeMillis();
 
         SAXReader saxReader = new SAXReader();
@@ -35,14 +34,11 @@ public class MainReader {
         Element rootObject = rootElement.element(new QName("RootObject", oNamespace));
 
         Element children = rootObject.element(new QName("Children", cNamespace));
-//        System.out.println(children);
         Element model = children.element(new QName("Model", oNamespace));
-//        System.out.println(model);
         Element tables = model.element(new QName("Tables", cNamespace));
         List<Element> tablelist = tables.elements(new QName("Table", oNamespace));
 
         System.out.println(Ansi.ansi().fg(YELLOW).a("Table size:") + Ansi.ansi().fg(Ansi.Color.GREEN).a(tablelist.size()).toString());
-
 
         System.out.println(Ansi.ansi().fgDefault().a(" "));
 
@@ -54,34 +50,27 @@ public class MainReader {
             System.out.println("------>" + Ansi.ansi().fg(BLUE).a("NO." + i) + Ansi.ansi().fg(RED).a(" " + name.getText() + " ") +
                     Ansi.ansi().fg(YELLOW).a(code.getText()) + Ansi.ansi().fgDefault().a("<-------"));
 
-
             //解析主键
             Element primaryKeyEle = tableElement.element(new QName("PrimaryKey", cNamespace));
-//            System.out.println(pk);
             List<String> pkIds = new ArrayList<>();
             if (primaryKeyEle != null) {
                 List<Element> pks = primaryKeyEle.elements(new QName("Key", oNamespace));
                 for (Element pk1 : pks) {
-//                    System.out.println(pk1.attribute("Ref").getValue());
                     pkIds.add(pk1.attribute("Ref").getValue());
                 }
             }
 
-
             Element keysEle = tableElement.element(new QName("Keys", cNamespace));
-//            System.out.println(keysEle);
             List<String> pkColumnIds = new ArrayList<>();
             if (keysEle != null) {
                 List<Element> keyEleList = keysEle.elements(new QName("Key", oNamespace));
                 for (Element keyEle : keyEleList) {
-//                    System.out.println(keyEle);
                     Attribute id = keyEle.attribute("Id");
                     if (pkIds.contains(id.getValue())) {
                         List<Element> list = keyEle.element(new QName("Key.Columns", cNamespace)).elements(new QName("Column", oNamespace));
                         for (Element element : list) {
                             pkColumnIds.add(element.attribute("Ref").getValue());
                         }
-//                        System.out.println(keyEle);
                     }
                 }
             }
@@ -96,7 +85,6 @@ public class MainReader {
                 Element cLength = columnEle.element(new QName("Length", aNamespace));
                 Element cComment = columnEle.element(new QName("Comment", aNamespace));
                 Element nullable = columnEle.element(new QName("Column.Mandatory", aNamespace));
-
 
                 System.out.print(getPadString(ccode.getText(), 20));
                 System.out.print(getPadString(getTextFromEle(cDataType), 15));
@@ -116,7 +104,7 @@ public class MainReader {
 
                 System.out.print(cname.getText());
                 if (cComment != null) {
-                    System.out.print("   (" + getTextFromEle(cComment).replace("\n","  ") + ")");
+                    System.out.print("   (" + getTextFromEle(cComment).replace("\n", "  ") + ")");
                 }
                 System.out.println();
             }
@@ -139,7 +127,7 @@ public class MainReader {
     }
 
     /**
-     * like pringf()
+     * @see String#format(String, Object...)
      */
     static String getPadString(String str, int length) {
         int size = str.length();
@@ -158,6 +146,4 @@ public class MainReader {
         }
         return s.toString();
     }
-
-
 }
