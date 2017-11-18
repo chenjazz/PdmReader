@@ -131,11 +131,14 @@ public class MainReader {
 
         }
 
+        System.out.println("================================");
+        System.out.println("Use time:" + Ansi.ansi().fg(RED).a((System.currentTimeMillis() - start) / 1000F) + Ansi.ansi().fg(DEFAULT).a("s"));
         System.out.println();
-        System.out.println("Use time:" + (System.currentTimeMillis() - start) / 1000F + "s");
-        System.out.println();
-        System.out.println("说明： 表标题分别为 列代码/类型/长度/是否为主键/是否允许为空/列可读名称及备注");
+        System.out.print(Ansi.ansi().fg(YELLOW).a("说明： "));
+        System.out.print(Ansi.ansi().fg(DEFAULT).a(""));
+        System.out.println("表标题分别为 列代码/类型/长度/是否为主键/是否允许为空/列可读名称及备注");
         System.out.println("      √ 表示主键， M 表示不能为空");
+        System.out.println();
     }
 
     static String getTextFromEle(Element element) {
