@@ -9,6 +9,9 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.Color.*;
 
+/**
+ * @author chenjazz
+ */
 public class MainReader {
 
     public static void main(String[] args) throws DocumentException {
