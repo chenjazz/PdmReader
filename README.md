@@ -10,7 +10,7 @@ JDK1.7+
 ```
 java -jar pdm-reader.jar /home/cjz/Desktop/tmp-doc/ZAFK.pdm
 ```
-显示结果如下（终端上使用不同颜色区分）：
+显示结果如下（终端上使用不同颜色区分，√为主键，M表示不为空）：
 
 ```
 File  path:/home/cjz/Desktop/tmp-doc/ZAFK.pdm
