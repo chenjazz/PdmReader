@@ -1,5 +1,5 @@
 # 简介
-用于解析 Power Designer 16+ 生成的 .pdm 文件
+用于解析 Power Designer 16+ 生成的 .pdm 文件。
 
 # 软件环境
 JDK1.7+
