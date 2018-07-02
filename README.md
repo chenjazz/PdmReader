@@ -2,7 +2,7 @@
 用于解析 Power Designer 16+ 生成的 .pdm 文件。
 
 # 软件环境
-JDK1.7+
+JDK1.7+ 。
  
 # 如何使用
 使用jar目录下的jar包 pdm-reader.jar或者自己编译生成，执行 `java -jar pdm-reader.jar [window或linux的pdm文件路径]` ，如下：
